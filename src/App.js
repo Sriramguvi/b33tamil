@@ -107,7 +107,7 @@ function Movie({ name, pic, rating, summary }) {
   return (
     <div className="movie-container">
       <img src={pic} alt={name} className="movie-poster" />
-<button onClick=showandhide()
+
       <div className="movie-specs">
         <h3 className="movie-name">{name}</h3>
         <p className="movie-rating"> ⭐ {rating}</p>
