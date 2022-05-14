@@ -89,6 +89,7 @@ export default function App() {
 
       <div className="movie-list">
         {movies.map(({ name, pic, rating, summary }) => (
+          
           <Movie
             name={name}
             pic={pic}
@@ -96,7 +97,7 @@ export default function App() {
             summary={summary}
           />
         ))}
-        
+
       </div>
     </div>
   );
