@@ -1,119 +1,200 @@
+import { Addcolor } from "./Addcolor";
 import "./App.css";
+import { useEffect, useState } from "react";
+import {  Route, Routes, useNavigate,Navigate } from "react-router-dom";
+import { ColorBox } from "./ColorBox";
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import { MovieDetails } from "./MovieDetails";
+import { Addmovie } from "./Addmovie";
+import { NotFound } from "./NotFound";
+import { MovieList } from "./MovieList";
+import { Counter } from "./Counter";
+import { Home } from "./Home";
+import IconButton from '@mui/material/IconButton';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import { CardContent } from "@mui/material";
+import CardActions from '@mui/material/CardActions';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import TextField from '@mui/material/TextField';
+import {  useParams } from "react-router-dom";
+import {API} from "./Global";
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
 
 export default function App() {
 
 // Definition of App
 
-  
 
-  const movies = [
-    {
-      name: "Harry Potter and the Philosopher's Stone",
-      pic:
-      "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1627678495-13187196-1054877505181104.jpg?crop=1xw:1xh;center,top&resize=480%3A%2A"    ,
-       rating: 8.8,
-      summary: `Harry Potter and the Philosopher's Stone (released in the United States, India and the Philippines as Harry Potter and the Sorcerer's Stone) is a 2001 fantasy film directed by Chris Columbus and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1997 novel of the same name.`,
-    },
-    {
-      name: "Harry Potter and the Chamber of Secrets ",
-      pic:
-        "https://wallpapercave.com/wp/wp5692227.jpg",
-      rating: 7,
-      summary:
-        "Harry Potter and the Chamber of Secrets is a 2002 fantasy film directed by Chris Columbus and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1998 novel of the same name. Produced by David Heyman and written by Steve Kloves, it is the sequel to Harry Potter and the Philosopher's Stone (2001) and the second instalment in the Harry Potter film series..",
-    },
-    {
-      name: "Harry Potter and the Prisoner of Azkaban",
-      pic:
-        "https://wallpaperaccess.com/full/2209649.jpg",
-      rating: 8.1,
-      summary:
-        "Harry Potter and the Prisoner of Azkaban is a 2004 fantasy film directed by Alfonso Cuarón and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1999 novel of the same name. The film was written by Steve Kloves, and produced by Chris Columbus and David Heyman. It is the sequel to Harry Potter and the Chamber of Secrets (2002) and the third instalment in the Harry Potter film series..",
-    },
-    {
-      name: "Harry Potter and the Goblet of Fire",
-      pic:
-        "https://picfiles.alphacoders.com/342/thumb-342037.jpg",
-      summary:
-        "Harry Potter and the Goblet of Fire is a 2005 fantasy film directed by Mike Newell and distributed by Warner Bros. Pictures, based on the 2000 novel of the same name. Produced by David Heyman and written by Steve Kloves, it is the sequel to Harry Potter and the Prisoner of Azkaban (2004) and the fourth instalment in the Harry Potter film series.",
-      rating: 8.8,
-    },
-    {
-      name: "Harry Potter and the Order of the Phoenix",
-      rating: 8,
-      summary: `Harry Potter and the Order of the Phoenix is a 2007 fantasy film directed by David Yates and distributed by Warner Bros. Pictures.[6] It is based on J. K. Rowling's 2003 novel of the same name. The fifth instalment in the Harry Potter film series, it was written by Michael Goldenberg (making this the only film in the series not to be scripted by Steve Kloves) and produced by David Heyman and David Barron. .`,
-        pic:
-"https://wallpaperaccess.com/full/4002739.jpg"    },
-    {
-      name: "Harry Potter and the Half-Blood Prince ",
-      pic: "https://m.media-amazon.com/images/M/MV5BNWM1NjNmZGEtOTk5Mi00ODBhLTgxMGUtNzNlYThlODA2ZGE4XkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_.jpg",
-      rating: 8.6,
-      summary: `Harry Potter and the Half-Blood Prince is a 2009 fantasy film directed by David Yates and distributed by Warner Bros. Pictures. It is based on J. K. Rowling's 2005 novel of the same name. The film, which is the sixth instalment in the Harry Potter film series, was written by Steve Kloves, and produced by David Heyman and David Barron. It stars Daniel Radcliffe as Harry Potter, alongside Rupert Grint and Emma Watson as Harry's best friends Ron Weasley and Hermione Granger respectively.`,
-    },
-    {
-      name: "Harry Potter and the Deathly Hallows – Part 1",
-      pic: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Harry_Potter_and_the_Deathly_Hallows_%E2%80%93_Part_1.jpg/220px-Harry_Potter_and_the_Deathly_Hallows_%E2%80%93_Part_1.jpg",
-      rating: 8,
-      summary: `Harry Potter and the Deathly Hallows – Part 1 is a 2010 fantasy film directed by David Yates and distributed by Warner Bros. Pictures.[5] It is the first of two cinematic parts based on J. K. Rowling's 2007 novel of the same name and the seventh instalment in the Harry Potter film series.[6] It was written by Steve Kloves and produced by David Heyman, David Barron, and Rowling and features an ensemble cast..`,
-    },
-    {
-      name: "Harry Potter and the Deathly Hallows – Part 2",
-      pic:
-        "https://upload.wikimedia.org/wikipedia/en/d/df/Harry_Potter_and_the_Deathly_Hallows_%E2%80%93_Part_2.jpg",
-      rating: 8,
-      summary: `Harry Potter and the Deathly Hallows – Part 2 is a 2011 fantasy film directed by David Yates and distributed by Warner Bros. Pictures.[4] It is the second of two cinematic parts based on J. K. Rowling's 2007 novel of the same name and the eighth and final instalment in the Harry Potter film series.[5] It was written by Steve Kloves and produced by David Heyman, David Barron, and Rowling. The story continues to follow Harry Potter's quest to find and destroy Lord Voldemort's Horcruxes in order to stop him once and for all.`,
-    },
 
-    
-    {
-      name: "Dark Knight",
-      pic:
-        "https://i.pinimg.com/originals/0f/a9/af/0fa9afc141f0096e064a5ab1854b36f1.jpg",
-      rating: 9,
-      summary:
-        "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-    },
-    {
-      name: "King Kong",
-      pic: "https://m.media-amazon.com/images/I/817FBcXLN2L._SL1500_.jpg",
-      rating: 9,
-      summary:
-        "Peter Jackson's expansive remake of the 1933 classic follows director Carl Denham (Jack Black) and his crew on a journey from New York City to the ominous Skull Island to film a new movie. Accompanying him are playwright Jack Driscoll (Adrien Brody) and actress Ann Darrow (Naomi Watts), who is whisked away by the monstrous ape, Kong, after they reach the island. The crew encounters dinosaurs and other creatures as they race to rescue Ann, while the actress forms a bond with her simian captor.",
-    },
-  ];
+
+
+const navigate=useNavigate();
+ 
+const [mode,setMode]=useState("light")
+const theme = createTheme({
+  palette: {
+    mode: mode,
+  },
+});
+
   return (
+    <ThemeProvider theme={theme}>
+      <Paper elevation={4} style={{minHeight:"10"} }>
     <div className="App">
-      {/* {users.map(({ name, pic }) => (
-        <Welcome name={name} pic={pic} />
-      ))} */}
-
-      <div className="movie-list">
-        {movies.map(({ name, pic, rating, summary }) => (
-          
-          <Movie
-            name={name}
-            pic={pic}
-            rating={rating}
-            summary={summary}
-          />
-        ))}
-
+<AppBar position="static">
+  <Toolbar>
+    <Button color="inherit" onClick={()=> navigate("/") }>Home</Button>
+    <Button color="inherit" onClick={()=> navigate("/movielist") }>Movielist</Button>
+    <Button color="inherit" onClick={()=> navigate("/movielist/addmovie") }>AddMovie</Button>
+    <Button color="inherit" onClick={()=> navigate("/addcolor") }>AddColor</Button>
+    <Button  
+    style={{marginLeft:"auto "}}
+   startIcon={mode === "dark"?<Brightness7Icon/> :<Brightness4Icon/>}
+    color="inherit" 
+    onClick={()=> setMode(mode === "dark" ? "light" : "dark") }>
+      {mode === "dark"?"light":"dark"}mode</Button>
+</Toolbar>
+  </AppBar>
+<div className="router-container">
+  <Routes>
+       <Route path="/" element={<Home/>}/>
+        <Route path="/movielist" element={<MovieList />}/>
+        <Route path="/films" element={<Navigate replace to="/movielist"/>}/>
+        <Route path="/movielist/:id" element={<MovieDetails />}/>
+        <Route path="/movielist/addmovie" element={<Addmovie />}/>
+        <Route path="/movielist/edit/:id" element={<Editmovie />}/>
+           <Route path="/colorbox" element={<ColorBox/>}/>
+           <Route path="/addcolor" element={<Addcolor/>}/>
+           <Route path="/404" element={<NotFound/>}/>
+           <Route path="*" element={<Navigate replace to="/404"/>}/>
+      </Routes>
       </div>
-    </div>
+    </div> 
+     </Paper >
+     </ThemeProvider>
   );
+
 }
 
-function Movie({ name, pic, rating, summary }) {
+function Editmovie(){
+  const { id } = useParams();
+  const[movie,setMovie]=useState(null);
+
+  useEffect(() =>{
+    fetch(`${API}/moviedata/${id}`)
+    .then((data)=>  data.json())
+    .then((mv)=>setMovie(mv));
+    
+    
+    },[id]);
+
+ 
+  return(
+ <div>
+{movie ? < EditMovieForm movie={movie} /> : "Loading....."}
+  </div>
+ );
+}
+function EditMovieForm({movie}){
+  const [name, setName] = useState(movie.name);
+  const [poster, setPoster] = useState(movie.poster);
+  const [rating, setRating] = useState(movie.rating);
+  const [summary, setSummary] = useState(movie.summary);
+  const [trailer, setTrailer] = useState(movie.trailer);
+  const navigate=useNavigate();
+  const editMovie = () => { 
+
+   const updateMovie = {
+      name,
+      pic: poster,
+      rating,
+      summary,
+      trailer,
+    };
+    console.log(updateMovie);
+
+    fetch(`${API}/moviedata/${movie.id}`, {
+      method: "PUT",
+      body: JSON.stringify(updateMovie),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then(() => navigate("/movielist"));
+  };
   return (
-    <div className="movie-container">
-      <img src={pic} alt={name} className="movie-poster" />
+    <div className="add-movie-form">
 
-      <div className="movie-specs">
-        <h3 className="movie-name">{name}</h3>
-        <p className="movie-rating"> ⭐ {rating}</p>
-      </div>
+      <TextField onChange={(event) => setName(event.target.value)} label="Name" variant="outlined"value={name} />
+      <TextField onChange={(event) => setPoster(event.target.value)} label="Poster" variant="outlined"value={poster} />
+      <TextField onChange={(event) => setRating(event.target.value)} label="Rating" variant="outlined"value={rating} />
+      <TextField onChange={(event) => setSummary(event.target.value)} label="summary" variant="outlined"value={summary} />
+      <TextField onChange={(event) => setTrailer(event.target.value)} label="Trailer" variant="outlined"value={trailer} />
 
-      <p className="movie-summary">{summary}</p>
+      <Button color="success" onClick={editMovie} variant="outlined">Save</Button>
+
     </div>
   );
-}  
+
+
+}
+
+
+
+
+export function Movie({movie,id,deleteButton,editButton}){
+
+const styles={
+  color:movie.rating > 8 ? "green":"red"
+}
+const [show,setShow]=useState(true)
+// const summaryStyle={
+//   display:show?"block":"none"
+// }
+const navigate=useNavigate();
+  return(
+    
+    <Card className="movie-container">
+      
+    <img src={movie.pic} alt="RRR" className="movie-poster" />
+<CardContent>
+  
+    <div className="movie-specs">
+      
+      <h6 className="movie-name">{movie.name} <IconButton aria-label="info"color="primary"  onClick={()=>navigate("/movielist/"+id)} ><InfoRoundedIcon />
+  
+   </IconButton>
+   <IconButton aria-label="info"color="primary" onClick={()=>setShow(!show)} >
+   {show? <ExpandLessIcon /> : <ExpandMoreIcon/>}
+     </IconButton>
+  </h6>
+  
+      <p  style={styles}className="movie-rating">⭐ {movie.rating}</p>
+    </div>
+    
+    
+  
+  
+    {/* <p style={
+      summaryStyle}className="movie-summary">{summary}</p> */}
+   {show? <p className="movie-summary">{movie.summary}</p> :""}
+   </CardContent>
+   <CardActions>
+   <Counter/> {deleteButton}  {editButton}
+   </CardActions>
+    
+  </Card>
+
+  );
+
+}

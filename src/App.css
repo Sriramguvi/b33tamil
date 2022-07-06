@@ -23,7 +23,7 @@
 }
 
 .movie-name {
-  font-size: 24px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -36,16 +36,43 @@
 .movie-container {
   /* background-color: orange; */
   width: 340px;
+  height: min-content;
 }
 
 /* RAM */
 .movie-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1rem;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-around;
+ 
 }
 
 body {
   margin: 24px;
+}
+.add-color{
+  display: flex;
+}
+.colorism{
+  border-radius: 25px;
+}
+.notfound{
+  width: 100%;
+  max-height: 500%;
+  object-fit: contain;
+}
+.movie-detail-container{
+  max-width: 800px;
+}
+.add-movie-form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.badge{
+  font-size: 4px;
+}
+.router-container{
+  padding-top: 24px;
 }
