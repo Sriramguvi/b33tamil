@@ -76,3 +76,8 @@ body {
 .router-container{
   padding-top: 24px;
 }
+.user-form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

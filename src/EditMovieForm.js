@@ -1,8 +1,8 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useState } from "react";
 import { API } from "./Global";
-import { useNavigate,Navigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from 'yup';
 
@@ -22,40 +22,48 @@ const formValidationSchema=yup.object({
 
 
 });
-export  function Addmovie() {
-  // const [name, setName] = useState("");
-  // const [poster, setPoster] = useState("");
-  // const [rating, setRating] = useState("");
-  // const [summary, setSummary] = useState("");
-  // const [trailer, setTrailer] = useState("");
 
+export function EditMovieForm({ movie }) {
+  // const [name, setName] = useState(movie.name);
+  // const [poster, setPoster] = useState(movie.poster);
+  // const [rating, setRating] = useState(movie.rating);
+  // const [summary, setSummary] = useState(movie.summary);
+  // const [trailer, setTrailer] = useState(movie.trailer);
+ 
   const {handleSubmit,values,handleChange,errors,handleBlur,touched}=useFormik({
     initialValues:{
-      name :"",
-       poster :"",
-      rating :"",
-      summary :"",
-      trailer:"",
+      name :movie.name,
+       poster :movie.poster,
+      rating :movie.rating,
+      summary :movie.summary,
+      trailer:movie.trailer,
     },
     validationSchema:formValidationSchema,
     onSubmit:(values) =>{
   console.log("form values",values)
-  addMovie(values);
+  editMovie(values);
     },
   });
 
-
-
-
-  const navigate=useNavigate();
-  const addMovie = (newMovie) => { 
-
  
-    console.log(newMovie);
+ 
+ 
+ 
+  const navigate = useNavigate();
+  const editMovie = (updateMovie) => {
 
-    fetch(`${API}/moviedata`, {
-      method: "POST",
-      body: JSON.stringify(newMovie),
+    // const updateMovie = {
+    //  name,
+    // poster,
+    //   rating,
+    //   summary,
+    //   trailer,
+    // };
+    console.log(updateMovie);
+
+    fetch(`${API}/moviedata/${movie.id}`, {
+      method: "PUT",
+      body: JSON.stringify(updateMovie),
       headers: {
         "Content-Type": "application/json"
       },
@@ -121,9 +129,20 @@ export  function Addmovie() {
       helperText=   {errors.trailer && touched.trailer ? errors.trailer:""}/>
       
 
-      <Button type='submit' variant="outlined">Add Movie</Button>
+      <Button type='submit' variant="outlined">edit Movie</Button>
 
     </form>
+    // <div className="add-movie-form">
+
+    //   <TextField onChange={(event) => setName(event.target.value)} label="Name" variant="outlined" value={name} />
+    //   <TextField onChange={(event) => setPoster(event.target.value)} label="Poster" variant="outlined" value={poster} />
+    //   <TextField onChange={(event) => setRating(event.target.value)} label="Rating" variant="outlined" value={rating} />
+    //   <TextField onChange={(event) => setSummary(event.target.value)} label="summary" variant="outlined" value={summary} />
+    //   <TextField onChange={(event) => setTrailer(event.target.value)} label="Trailer" variant="outlined" value={trailer} />
+
+    //   <Button color="success" onClick={editMovie} variant="outlined">Save</Button>
+
+    // </div>
   );
 
 

@@ -1,4 +1,4 @@
-import { Movie } from "./App";
+import { Movie } from "./Movie";
 import { useEffect,useState } from "react";
 import {API} from "./Global";
 import { useNavigate,navigate } from "react-router-dom";
