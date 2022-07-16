@@ -17,7 +17,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Editmovie } from "./Editmovie";
-import { BasicForm } from "./BasicForm";
+
 
 
 
@@ -66,7 +66,7 @@ const theme = createTheme({
         <Route path="/movielist/addmovie" element={<Addmovie />}/>
         <Route path="/movielist/edit/:id" element={<Editmovie />}/>
            <Route path="/colorbox" element={<ColorBox/>}/>
-           <Route path="/basic-form" element={<BasicForm/>}/>
+          
            <Route path="/addcolor" element={<Addcolor/>}/>
            <Route path="/404" element={<NotFound/>}/>
            <Route path="*" element={<Navigate replace to="/404"/>}/>
